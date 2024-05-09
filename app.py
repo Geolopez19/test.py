@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for
 from flask_mail import Mail, Message
 
@@ -13,8 +14,11 @@ app.config['MAIL_PASSWORD'] = 'msto vjgx ghdd qlby'
 
 mail = Mail(app)
 
+# Obtener el puerto de la variable de entorno o usar el puerto 5000 por defecto
+port = int(os.environ.get('PORT', 5000))
+
 @app.route('/', methods=['GET', 'POST'])
-def index():
+def index(): 
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -35,4 +39,4 @@ def sms():
     return render_template('sms.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True)
